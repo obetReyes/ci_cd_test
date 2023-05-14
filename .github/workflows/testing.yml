@@ -9,10 +9,8 @@ on:
       - main
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -22,6 +20,21 @@ jobs:
         node-version: '18.x'
     - name: install dependencies
       run: npm ci
+    - name: run dependendencies
+      run : npm run
     - name: tests
       run: npm test
+  
+  deploy:
+    name: deploy
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.SERVICE_ID }} # Can be found as part of the Deploy Hook
+          api-key: ${{ secrets.RENDER_API_KEY }} # Create your API key in Render Dashboard > Account Settings 
+    
 
