@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -16,7 +16,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '18.x'
-    - name: start
-      run: npm run start
+    - name: install dependencies
+      run: npm ci
     - name: tests
-      run: npm run test
+      run: npm test
+    
